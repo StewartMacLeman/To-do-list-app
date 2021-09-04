@@ -1,3 +1,160 @@
-body {
-  background-color: pink;
+html {
+  font-size: 16px;
+  box-sizing: border-box;
 }
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  height: 100%;
+  margin: 0 auto 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 { font-size: 3rem; }
+p { font-size: 2rem; }
+label, input { font-size: 2rem; }
+span { font-size: 2rem; }
+button { font-size: 1.5rem; }
+
+h1, p, label, input, span, button {
+  font-family: helvetica, tahoma, sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  padding: .25rem;
+  background-color: none;
+}
+/* Button styles. ---------------------------------------- */
+ button {
+   background-color: black;
+   color: white;
+   border-radius: 8px;
+ }
+ button:hover {
+   background-color: white;
+   color: black;
+   cursor: pointer;
+ }
+/* Form styles. ------------------------------------------ */
+form {
+  margin: 1rem auto 2rem;
+  padding: .75rem .25rem;
+  background-color: lemonchiffon;
+  border: .15rem solid black;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+form div {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+form div label {
+  width: 20%;
+  text-align: right;
+}
+form div input {
+  width: 79%;
+}
+form button {
+  width: 19%;
+}
+form * {
+  margin: 0;
+}
+input {
+  text-align: left;
+}
+/* Task list styles. ---------------------------------------- */
+ul {
+  max-height: 60vh;
+  margin: 1rem auto;
+  padding: .25rem;
+  width: 90%;
+  list-style-type: none;
+  overflow-y: scroll;
+}
+ul li:nth-child(1) {
+  border-top: .25rem solid black;
+  padding-top: .25rem;
+}
+ul li:nth-child(even) {
+  background-color: lemonchiffon;
+}
+li {
+  display: grid;
+  grid-template-columns: auto 19%;
+  justify-content: space-between;
+  border-bottom: .25rem solid black;
+  padding-bottom: .25rem;
+  margin-bottom: .5rem;
+}
+li div {
+  display: flex;
+  justify-content: space-between;
+  border-left: .25rem solid black;
+  padding-left: .15rem;
+}
+li div button {
+  min-width: 45%;
+  margin: 0;
+}
+/* Button colours. -------------- */
+.edit {
+  background-color: dodgerblue;
+}
+.delete {
+  background-color: red;
+}
+/* Media Queries. ----------------------------------------- */
+ @media screen and (max-width: 1040px){
+   form div label { width: 26%; }
+   form div input { width: 73%; }
+ }
+ @media screen and (max-width: 870px){
+   button { font-size: 1.25rem; }
+ }
+ @media screen and (max-width: 840px){
+   form div label { width: 29%; }
+   form div input { width: 70%; }
+ }
+ @media screen and (max-width: 760px){
+   html { font-size: 12px; }
+ }
+ @media screen and (max-width: 650px){
+   li div {
+     display: flex;
+     flex-direction: column;
+   }
+   li span {
+     display: flex;
+     align-items: center;
+   }
+   button {
+     border-radius: 6px;
+     font-size: 1.5rem;
+    }
+   .edit { margin-bottom: .5rem; }
+   .edit, .delete {
+     padding: 1rem 0rem;
+   }
+ }
+ @media screen and (max-width: 566px){
+   html { font-size: 10px; }
+ }
+ @media screen and (max-width: 475px){
+   form div label { width: 39%; }
+   form div input { width: 60%; }
+ }
+ @media screen and (max-width: 410px){
+   html { font-size: 8px; }
+   form div label { width: 19%; }
+   form div input { width: 80%; }
+ }
+ @media screen and (max-width: 280px){
+   html { font-size: 7px; }
+ }
