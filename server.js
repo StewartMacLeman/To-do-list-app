@@ -1,7 +1,17 @@
+require('dotenv').config();
+let { MongoClient } = require("mongodb");
 let express = require("express");
 let app = express();
 
-app.use(express.urlencoded({extended: false}))
+let database;
+
+MongoClient.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+  database = client.db('To_do_list');
+  // Moved from the base, to establish a connection from database to the server first; prior to rendering to the client.
+  app.listen(3000);
+});
+
+app.use(express.urlencoded({extended: false}));
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -72,8 +82,11 @@ app.get("/", (req, res) => {
 });
 
 app.post("/create-task", (req, res) => {
-  console.log(req.body.addedTask);
-  res.send("This is a post test!")
+  // console.log(req.body.addedTask);
+  database.collection("tasks").insertOne({addedTask: req.body.addedTask}, () => {
+    res.send("This is a post test!");
+  })
 });
 
-app.listen(3000);
+// Moved!
+// app.listen(3000);
