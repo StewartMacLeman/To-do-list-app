@@ -76,7 +76,7 @@ app.post("/create-task", (req, res) => {
 });
 
 app.post("/update-task", (req, res) => {
-  database.collection("tasks").findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {addedTask: req.body.text}}, () => {
+  database.collection("tasks").updateOne({_id: req.body.id}, {$set: {addedTask: req.body.text}}, () => {
     res.send("Success!")
   })
 })
