@@ -54,7 +54,7 @@ app.get("/", (req, res) => {
                 <span>${task.addedTask}</span>
                 <div>
                   <button data-id="${task._id}" type="button" class="edit">Edit</button>
-                  <button type="button" class="delete">Delete</button>
+                  <button data-id="${task._id}" type="button" class="delete">Delete</button>
                 </div>
               </li>`
             }).join("")}
@@ -84,6 +84,12 @@ app.post("/update-task", (req, res) => {
   // console.log(req.body.text);
   // res.send("Success!");
 });
+
+app.post("/delete-task", (req, res) => {
+  database.collection("tasks").deleteOne({_id: new mongodb.ObjectId(req.body.id)}, () => {
+    res.send("Success!")
+  })
+})
 
 
 // Moved!
