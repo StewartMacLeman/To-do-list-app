@@ -1,7 +1,8 @@
 require('dotenv').config();
 // let MongoClient = require("mongodb").MongoClient; - Alternative!
-// let { MongoClient } = require("mongodb");
-let mongodb = require("mongodb").MongoClient;
+// let mongodb = require("mongodb").MongoClient;
+let { MongoClient } = require("mongodb");
+let mongodb = require("mongodb");
 let express = require("express");
 let app = express();
 
@@ -10,8 +11,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static("public"));
 
 let database;
-
-mongodb.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
+// MongoClient is required for connecting, just mongodb does not work!
+MongoClient.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
   database = client.db('To_do_list');
   // Moved from the base, to establish a connection from database to the server first; prior to rendering to the client.
   app.listen(3000);
@@ -30,8 +31,6 @@ app.get("/", (req, res) => {
           <meta name="author" content="Stewart MacLeman">
           <meta name="description" content="A basic to-do-list app.">
           <link rel="stylesheet" href="./styles.css">
-          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-          <script src="./main.js" defer></script>
 
           <title>To-do-list</title>
         </head>
@@ -60,6 +59,9 @@ app.get("/", (req, res) => {
               </li>`
             }).join("")}
           </ul>
+
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+          <script src="./main.js"></script>
         </body>
 
       </html>
@@ -74,12 +76,15 @@ app.post("/create-task", (req, res) => {
     res.redirect("/");
   })
 });
-
+// mongodb, not MongoClient is required. MongoClient returns an error.
 app.post("/update-task", (req, res) => {
-  database.collection("tasks").updateOne({_id: req.body.id}, {$set: {addedTask: req.body.text}}, () => {
-    res.send("Success!")
+  database.collection("tasks").findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {addedTask: req.body.text}}, () => {
+    res.send("Success!");
   })
-})
+  // console.log(req.body.text);
+  // res.send("Success!");
+});
+
 
 // Moved!
 // app.listen(3000);
