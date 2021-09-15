@@ -1,6 +1,6 @@
 require('dotenv').config();
 // let MongoClient = require("mongodb").MongoClient; - Alternative!
-// let mongodb = require("mongodb").MongoClient;
+// let mongodb = require("mongodb").MongoClient; - Alternative!
 let { MongoClient } = require("mongodb");
 let mongodb = require("mongodb");
 let express = require("express");
@@ -14,11 +14,12 @@ let database;
 // MongoClient is required for connecting, just mongodb does not work!
 MongoClient.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
   database = client.db('To_do_list');
-  // Moved from the base, to establish a connection from database to the server first; prior to rendering to the client.
+
   app.listen(3000);
+  // Moved from the base, to establish a connection from database to the server first; prior to rendering to the client.
 });
 
-
+// READ!
 app.get("/", (req, res) => {
   database.collection("tasks").find().toArray((err, tasks) => {
     // console.log(tasks);
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <meta name="author" content="Stewart MacLeman">
           <meta name="description" content="A basic to-do-list app.">
+          <link rel="icon" href="./favicon.ico">
           <link rel="stylesheet" href="./styles.css">
 
           <title>To-do-list</title>
@@ -63,12 +65,12 @@ app.get("/", (req, res) => {
           <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
           <script src="./main.js"></script>
         </body>
-
       </html>
       `)
   })
 });
 
+// CREATE!
 app.post("/create-task", (req, res) => {
   // console.log(req.body.addedTask);
   database.collection("tasks").insertOne({addedTask: req.body.addedTask}, () => {
@@ -76,6 +78,8 @@ app.post("/create-task", (req, res) => {
     res.redirect("/");
   })
 });
+
+// UPDATE!
 // mongodb, not MongoClient is required. MongoClient returns an error.
 app.post("/update-task", (req, res) => {
   database.collection("tasks").findOneAndUpdate({_id: new mongodb.ObjectId(req.body.id)}, {$set: {addedTask: req.body.text}}, () => {
@@ -85,12 +89,9 @@ app.post("/update-task", (req, res) => {
   // res.send("Success!");
 });
 
+// DELETE!
 app.post("/delete-task", (req, res) => {
   database.collection("tasks").deleteOne({_id: new mongodb.ObjectId(req.body.id)}, () => {
     res.send("Success!")
   })
 })
-
-
-// Moved!
-// app.listen(3000);
