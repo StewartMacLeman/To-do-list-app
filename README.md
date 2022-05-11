@@ -2,7 +2,7 @@
 
 This is a simple to-do-list CRUD app.
 
-## Build with:
+## Built with:
 * Express
 * MongoDB
 * JavaScript
